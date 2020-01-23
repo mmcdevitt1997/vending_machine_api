@@ -1,3 +1,4 @@
+from django.db import models
 from .inventory import Inventory
 from .transaction import Transaction
 
