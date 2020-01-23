@@ -13,8 +13,8 @@ class InventorySerializer(serializers.HyperlinkedModelSerializer):
             view_name='inventory',
             lookup_field='id'
         )
-        fields = ('id', 'quantity')
-        depth = 1
+        fields = ('id', 'quantity', 'vending_machine')
+
 
 class InventoryView(ViewSet):
     queryset = Inventory.objects.all()
@@ -28,8 +28,22 @@ class InventoryView(ViewSet):
         except Exception as ex:
             return HttpResponseServerError(ex)
     def list(self, request):
+
         inventory = Inventory.objects.all()
         serializer = InventorySerializer(
             inventory, many=True, context={'request': request})
         return Response(serializer.data)
 
+@api_view (['PUT'])
+def put_inventory(request, pk):
+    try:
+        inventory = Inventory.objects.get(pk=pk)
+    except Inventory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = InventorySerializer(inventory, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

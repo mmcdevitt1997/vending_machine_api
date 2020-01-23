@@ -1,0 +1,11 @@
+
+  [
+      {
+        "model": "vendingapp.coin",
+        "pk": 1,
+        "fields": {
+          "transaction": 1,
+          "coin": 1
+        }
+      }
+    ]

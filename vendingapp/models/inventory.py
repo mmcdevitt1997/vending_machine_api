@@ -1,5 +1,5 @@
 from django.db import models
-from .vending import VendingMachine
+
 
 class Inventory(models.Model):
     quantity = models.IntegerField(default=5)

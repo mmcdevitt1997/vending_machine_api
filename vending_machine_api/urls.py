@@ -5,9 +5,10 @@ from vendingapp.models import *
 from vendingapp.views import *
 
 router = routers.DefaultRouter(trailing_slash=False)
-
+router.register(r'coin', CoinView, 'Coin')
 router.register(r'inventory', InventoryView, 'Inventory')
-router.register(r'users', Users, 'User')
+router.register(r'transaction', TransactionView, 'Transaction')
+router.register(r'users', Users, 'Users')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
