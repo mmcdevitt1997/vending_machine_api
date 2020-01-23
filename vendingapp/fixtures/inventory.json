@@ -1,0 +1,10 @@
+[
+    {
+      "model": "vendingapp.Inventory",
+      "pk": 1,
+      "fields": {
+        "vending_machine": 6,
+        "quantity":5
+      }
+    }
+  ]
