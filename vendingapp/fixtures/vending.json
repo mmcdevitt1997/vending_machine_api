@@ -1,9 +1,0 @@
-[
-  {
-    "model": "vendingapp.VendingMachine",
-    "pk": 6,
-    "fields": {
-      "name": "Vending Machine 1"
-    }
-  }
-]

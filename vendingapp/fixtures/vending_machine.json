@@ -1,0 +1,9 @@
+[
+  {
+    "model": "vendingapp.VendingMachine",
+    "pk": 6,
+    "fields": {
+      "coin": 0
+    }
+  }
+]
