@@ -14,7 +14,7 @@ local_settings.py
 .env
 
 # virtualenv
-libraryprojectenv/
+VendingEnv/
 
 .vscode
 
