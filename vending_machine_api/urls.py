@@ -6,6 +6,8 @@ from vendingapp.views import *
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'users', Users, 'Users')
+router.register(r'inventory', InventoryView, 'Inventory')
+router.register(r'vending_machines', VendingMachineView, 'VendingMachine')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

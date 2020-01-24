@@ -34,16 +34,12 @@ class InventoryView(ViewSet):
             inventory, many=True, context={'request': request})
         return Response(serializer.data, status=200)
 
-@api_view (['PUT'])
-def put_inventory(request, pk):
-    try:
-        inventory = Inventory.objects.get(pk=pk)
-    except Inventory.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    def update(self, request, pk=None):
+        """Handle PUT requests for coins
+             Returns:
+             Response -- Empty body with 204 status code
+             """
 
-    if request.method == 'PUT':
-        serializer = InventorySerializer(inventory, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        inventory = Inventory.objects.get(pk=pk)
+        inventory.quantity = request.data["quantity"]
+
