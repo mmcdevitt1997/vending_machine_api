@@ -1,6 +1,6 @@
 from django.db import models
 class VendingMachine(models.Model):
-    coin = models.IntegerField(defalt=0 )
+    coin = models.IntegerField(defalt=0)
 
     # @property
     # def coins_accepted(self):
