@@ -13,7 +13,7 @@ class InventorySerializer(serializers.HyperlinkedModelSerializer):
             view_name='inventory',
             lookup_field='id'
         )
-        fields = ('id', 'quantity', 'vending_machine')
+        fields = ('id', 'quantity')
 
 
 class InventoryView(ViewSet):
@@ -32,7 +32,7 @@ class InventoryView(ViewSet):
         inventory = Inventory.objects.all()
         serializer = InventorySerializer(
             inventory, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(serializer.data, status=200)
 
 @api_view (['PUT'])
 def put_inventory(request, pk):
