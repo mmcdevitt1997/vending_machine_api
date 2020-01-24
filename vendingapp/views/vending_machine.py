@@ -3,18 +3,19 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from rest_framework.decorators import api_view
 from vendingapp.models.vending_machine import VendingMachine
+from vendingapp.views.inventory import InventorySerializer
 
 
-class CoinSerializer(serializers.HyperlinkedModelSerializer):
+class VendingMachineSerializer(serializers.HyperlinkedModelSerializer):
+    inventory = InventorySerializer(many="True")
     class Meta:
         model = VendingMachine
         url = serializers.HyperlinkedIdentityField(
             view_name='VendingMachine',
             lookup_field='id'
         )
-        fields = ('id', 'coin')
+        fields = ('id', 'quantity', 'coin')
         depth = 1
 
 
