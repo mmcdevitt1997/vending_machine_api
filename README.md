@@ -39,7 +39,7 @@ python manage.py runserver
 ```
 The Vending Machine API is now up and running you can Postman or any other serves using HTTP calls.
 
-Here is a list call you can make with this API. 
+Here is a list call you can make with this API.
 
-![HTTP chart](/Desktop/HTTP.png)
+![HTTP chart](/images/HTTP.png)
 
