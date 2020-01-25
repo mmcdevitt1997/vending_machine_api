@@ -1,3 +1,4 @@
+"""View module for handling requests about Vending Machine"""
 from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -8,6 +9,7 @@ from vendingapp.views.inventory import InventorySerializer
 
 
 class VendingMachineSerializer(serializers.HyperlinkedModelSerializer):
+
     inventory = InventorySerializer(many="True")
     class Meta:
         model = VendingMachine
@@ -23,10 +25,11 @@ class VendingMachineView(ViewSet):
     queryset = VendingMachine.objects.all()
 
     def update(self, request, pk=None):
-        """Handle PUT requests for coins
-             Returns:
-             Response -- Empty body with 204 status code
-             """
+        """
+            Handle PUT requests for coins
+            Response -- 204 status code
+
+         """
         vending_machine = VendingMachine.objects.get(pk=pk)
         vending_machine.coin = request.data["coin"]
         headers = {
@@ -36,14 +39,15 @@ class VendingMachineView(ViewSet):
         return Response({}, status=status.HTTP_204_NO_CONTENT, headers=headers)
 
     def destroy(self, request, pk=None):
-        """Handle DELETE requests for a single park area
+        """
+      Handle DELETE requests for a for the coins so that you can tell
+      how much change is going back to the customer
 
         Returns:
-            Response -- 200, 404, or 500 status code
+            Response -- 204, 404, or 500 status code
         """
         try:
             vending_machine = VendingMachine.objects.get(pk=pk)
-
             vending_machine.coin = request.data["coin"]
             headers = {"X-Coins": vending_machine.coin-2}
 

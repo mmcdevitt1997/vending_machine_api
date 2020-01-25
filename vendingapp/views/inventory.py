@@ -1,10 +1,10 @@
+"""View module for handling requests about inventory"""
 from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from rest_framework.decorators import api_view
-from vendingapp.models import Inventory, VendingMachine
+from vendingapp.models import Inventory
 
 
 class InventorySerializer(serializers.HyperlinkedModelSerializer):
@@ -22,44 +22,55 @@ class InventoryView(ViewSet):
     queryset = Inventory.objects.all()
 
     def retrieve(self, request, pk=None):
-        """Handle GET requests for inventory
+        """
+        Handle GET requests for inventory
+        Gets a single Inventory item
+
         """
         try:
             inventory = Inventory.objects.get(pk=pk)
             serializer = InventorySerializer(
                 inventory, context={'request': request})
             return Response(serializer.data)
+
         except Exception as ex:
             return HttpResponseServerError(ex)
 
     def list(self, request):
-
+        """
+        GET all
+        List out all of different inventory in the machine
+        """
         inventory = Inventory.objects.all()
+
         serializer = InventorySerializer(
             inventory, many=True, context={'request': request})
+
         return Response(serializer.data, status=200)
 
     def update(self, request, pk=None):
-        """Handle PUT requests for coins
-             Returns:
-             Response -- Empty body with 204 status code
-             """
-
-        inventoryobject = Inventory.objects.get(pk=pk)
-        if inventoryobject.vending_machine.coin >= 2 and inventoryobject.quantity > 0:
-            inventory = Inventory.objects.get(pk=pk)
-            inventory.quantity = inventoryobject.quantity-1
+        """
+        Handle PUT requests for inventory
+        Response -- HTTP_204_NO_CONTENT
+        """
+        inventory = Inventory.objects.get(pk=pk)
+        # checks if the less then 2 coin are inserted and if their are still items in the inventory
+        if inventory.vending_machine.coin >= 2 and inventory.quantity > 0:
+            inventory.quantity = inventory.quantity-1
             inventory.save()
             http_code = status.HTTP_204_NO_CONTENT
-            items_vended = 5-inventoryobject.quantity
+            items_vended = 5-inventory.quantity
             headers = {"X-Inventory": inventory.quantity,
                        "X-coin": inventory.vending_machine.coin-2}
-        elif inventoryobject.vending_machine.coin < 2:
+         # manages if less than 2 coin are inserted into the vending machine
+        elif inventory.vending_machine.coin < 2:
             items_vended = 0
             http_code = status.HTTP_403_FORBIDDEN
-            headers = {"X-coin": inventoryobject.vending_machine.coin}
-        elif inventoryobject.quantity >= 0:
+            headers = {"X-coin": inventory.vending_machine.coin}
+        # it sends up an error if inventory runs out
+        elif inventory.quantity >= 0:
             items_vended = 0
             http_code = status.HTTP_404_NOT_FOUND
-            headers = {"X-coin": inventoryobject.vending_machine.coin}
+            headers = {"X-coin": inventory.vending_machine.coin}
+
         return Response({"quantity": items_vended}, status=http_code, headers=headers)
