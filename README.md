@@ -11,6 +11,7 @@ Make sure you have Python 3.7 or greater installed and are able to use pip.
 
 The following commands should be executed in the terminal
 
+
 Clone this repository down in desired location:
 
 ```
