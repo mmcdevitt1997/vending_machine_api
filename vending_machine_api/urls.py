@@ -5,14 +5,12 @@ from vendingapp.models import *
 from vendingapp.views import *
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'users', Users, 'Users')
+
 router.register(r'inventory', InventoryView, 'Inventory')
-router.register(r'vending_machines', VendingMachineView, 'VendingMachine')
+router.register(r'', VendingMachineView, '')
+
 
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^api-token-auth/', obtain_auth_token),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^register$', register_user),
-    url(r'^login$', login_user),
 ]

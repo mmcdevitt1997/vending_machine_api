@@ -1,7 +1,7 @@
 [
   {
     "model": "vendingapp.VendingMachine",
-    "pk": 6,
+    "pk": 1,
     "fields": {
       "coin": 0
     }
